@@ -17,6 +17,7 @@ locals {
   tags = {
     Environment = local.environment
     ProductArea = local.product_area
-    ManagedBy   = "Terraform"
+    CreatedBy   = "Terraform"
+    CreatedDate = "2024-05-02"
   }
 }
