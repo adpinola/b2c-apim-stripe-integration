@@ -1,0 +1,42 @@
+<policies>
+    <inbound>
+        <base />
+        <!-- Validate the JWT token -->
+        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized" require-scheme="Bearer">
+            <openid-config url="https://{{B2CTenant}}.b2clogin.com/{{B2CTenant}}.onmicrosoft.com/v2.0/.well-known/openid-configuration?p={{B2CPolicy}}" />
+            <audiences>
+                <audience>{{Audience}}</audience>
+            </audiences>
+            <issuers>
+                <issuer>{{JwtIssuer}}</issuer>
+            </issuers>
+            <required-claims>
+                <claim name="sub" match="all">
+                    <value>@(context.Subscription.Id.Replace("-enterprise", ""))</value>
+                </claim>
+                <claim name="extension_PrimaryKey" match="all">
+                    <value>@(context.Subscription.PrimaryKey)</value>
+                </claim>
+                <claim name="extension_SecondaryKey" match="all">
+                    <value>@(context.Subscription.SecondaryKey)</value>
+                </claim>
+            </required-claims>
+        </validate-jwt>
+        <return-response>
+            <set-status code="200" />
+            <set-header name="Content-Type" exists-action="override">
+                <value>application/json</value>
+            </set-header>
+            <set-body>{{PrivateResponse}}</set-body>
+        </return-response>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

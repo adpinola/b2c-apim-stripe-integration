@@ -1,0 +1,33 @@
+<h1>Subscription payment accepted</h1>
+<p>Your subscription will shortly be activated.</p>
+<p>
+  You'll be redirected to the
+  <a href="<%= process.env.HOME_PAGE %>">Portal</a> in
+  <span id="timer">5</span> seconds
+</p>
+<script>
+  // Function to update the countdown timer
+  function updateCountdown(seconds) {
+    document.getElementById("timer").textContent = seconds;
+  }
+
+  // Function to redirect after countdown
+  function redirect() {
+    window.location = "<%= process.env.HOME_PAGE %>";
+  }
+
+  // Countdown logic
+  let seconds = 5;
+  updateCountdown(seconds);
+
+  const countdownInterval = setInterval(() => {
+    seconds--;
+
+    if (seconds > 0) {
+      updateCountdown(seconds);
+    } else {
+      clearInterval(countdownInterval);
+      redirect();
+    }
+  }, 1000);
+</script>

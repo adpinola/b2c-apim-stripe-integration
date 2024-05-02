@@ -1,0 +1,33 @@
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  var stripe = Stripe("<%= process.env.STRIPE_PUBLIC_KEY %>");
+
+  fetch("/api/checkout/session", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userEmail: "<%= subscribeRequest.userEmail %>",
+      apimUserId: "<%= subscribeRequest.userId %>",
+      apimProductId: "<%= subscribeRequest.productId %>",
+      operation: "<%= subscribeRequest.operation %>",
+      returnUrlBase: `${location.protocol}//${location.host}`
+    }),
+  })
+    .then(async (data) => {
+      var result = await data.json();
+      var sessionId = result.id;
+
+      stripe
+        .redirectToCheckout({
+          sessionId: sessionId,
+        })
+        .then(function (data) {
+          // If `redirectToCheckout` fails due to a browser or network
+          // error, display the localized error message to your customer
+          // using `data.error.message`.
+        });
+    })
+    .catch(console.log);
+</script>

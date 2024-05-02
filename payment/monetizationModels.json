@@ -1,0 +1,130 @@
+[
+  {
+    "id": "payg",
+    "pricingModelType": "Metered",
+    "billingScheme": "per_unit",
+    "unitAmount": 15,
+    "currency": "usd",
+    "recurring": {
+      "interval": "month",
+      "interval_count": 1,
+      "usage_type": "metered"
+    }
+  },
+  {
+    "id": "basic",
+    "pricingModelType": "Tier",
+    "billingScheme": "per_unit",
+    "unitAmount": 1495,
+    "currency": "usd",
+    "recurring": {
+      "interval": "month",
+      "interval_count": 1,
+      "usage_type": "licensed"
+    }
+  },
+  {
+    "id": "developer",
+    "pricingModelType": "Freemium",
+    "billingScheme": "tiered",
+    "tiersMode": "graduated",
+    "currency": "usd",
+    "recurring": {
+      "interval": "month",
+      "interval_count": 1,
+      "usage_type": "metered"
+    },
+    "tiers": [
+      {
+        "upTo": 1,
+        "flatAmount": 0
+      },
+      {
+        "upTo": -1,
+        "flatAmount": 20
+      }
+    ]
+  },
+  {
+    "id": "standard",
+    "pricingModelType": "TierWithOverage",
+    "billingScheme": "tiered",
+    "tiersMode": "graduated",
+    "currency": "usd",
+    "recurring": {
+      "interval": "month",
+      "interval_count": 1,
+      "usage_type": "metered"
+    },
+    "tiers": [
+      {
+        "upTo": 1000,
+        "flatAmount": 8995
+      },
+      {
+        "upTo": -1,
+        "flatAmount": 10
+      }
+    ]
+  },
+  {
+    "id": "pro",
+    "pricingModelType": "TierWithOverage",
+    "billingScheme": "tiered",
+    "tiersMode": "graduated",
+    "currency": "usd",
+    "recurring": {
+      "interval": "month",
+      "interval_count": 1,
+      "usage_type": "metered"
+    },
+    "tiers": [
+      {
+        "upTo": 5000,
+        "flatAmount": 44900
+      },
+      {
+        "upTo": -1,
+        "flatAmount": 6
+      }
+    ]
+  },
+  {
+    "id": "enterprise",
+    "pricingModelType": "Unit",
+    "billingScheme": "tiered",
+    "tiersMode": "graduated",
+    "currency": "usd",
+    "recurring": {
+      "interval": "month",
+      "interval_count": 1,
+      "usage_type": "metered"
+    },
+    "tiers": [
+      {
+        "upTo": 15000,
+        "flatAmount": 74900
+      },
+      {
+        "upTo": 30000,
+        "flatAmount": 74900
+      },
+      {
+        "upTo": 45000,
+        "flatAmount": 74900
+      },
+      {
+        "upTo": 60000,
+        "flatAmount": 74900
+      },
+      {
+        "upTo": 75000,
+        "flatAmount": 74900
+      },
+      {
+        "upTo": -1,
+        "flatAmount": 74900
+      }
+    ]
+  }
+]

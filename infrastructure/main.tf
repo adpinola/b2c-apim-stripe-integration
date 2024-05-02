@@ -5,7 +5,16 @@ terraform {
       source  = "hashicorp/azurerm"
       version = ">= 3.101.0"
     }
+    azapi = {
+      source = "Azure/azapi"
+    }
+    stripe = {
+      version = ">=1.9.6"
+      source  = "lukasaron/stripe"
+    }
   }
+
+  backend "azurerm" {}
 }
 
 
@@ -15,7 +24,7 @@ resource "azurerm_resource_group" "rg" {
   name     = module.naming.resource_group.name
   location = local.location
 
-  tags     = local.tags
+  tags = local.tags
 }
 
 module "naming" {
