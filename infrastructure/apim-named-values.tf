@@ -8,7 +8,7 @@ resource "azurerm_api_management_named_value" "subscription_id" {
 
 resource "azurerm_api_management_named_value" "resource_group_name" {
   name                = "resourceGroupName"
-  display_name        = "SubscriptionId"
+  display_name        = "ResourceGroupName"
   api_management_name = azurerm_api_management.main.name
   resource_group_name = azurerm_resource_group.rg.name
   value               = azurerm_resource_group.rg.name
@@ -16,7 +16,7 @@ resource "azurerm_api_management_named_value" "resource_group_name" {
 
 resource "azurerm_api_management_named_value" "apim_service_name" {
   name                = "apimServiceName"
-  display_name        = "SubscriptionId"
+  display_name        = "ApimServiceName"
   api_management_name = azurerm_api_management.main.name
   resource_group_name = azurerm_resource_group.rg.name
   value               = azurerm_api_management.main.name
@@ -24,15 +24,15 @@ resource "azurerm_api_management_named_value" "apim_service_name" {
 
 resource "azurerm_api_management_named_value" "app_service_name" {
   name                = "appServiceName"
-  display_name        = "SubscriptionId"
+  display_name        = "AppServiceName"
   api_management_name = azurerm_api_management.main.name
   resource_group_name = azurerm_resource_group.rg.name
   value               = azurerm_container_app.monetization_server.name
 }
 
-resource "azurerm_api_management_named_value" "monetization_models_url" {
-  name                = "monetizationModelsUrl"
-  display_name        = "SubscriptionId"
+resource "azurerm_api_management_named_value" "monetization_models" {
+  name                = "monetizationModels"
+  display_name        = "MonetizationModels"
   api_management_name = azurerm_api_management.main.name
   resource_group_name = azurerm_resource_group.rg.name
   value               = file("../payment/monetizationModels.json")

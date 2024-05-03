@@ -1,7 +1,7 @@
 <policies>
     <inbound>
         <base />
-        <set-backend-service base-url="https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.ApiManagement/service/{{apimServiceName}}" />
+        <set-backend-service base-url="https://management.azure.com/subscriptions/{{SubscriptionId}}/resourceGroups/{{ResourceGroupName}}/providers/Microsoft.ApiManagement/service/{{ApimServiceName}}" />
         <set-query-parameter name="api-version" exists-action="override">
             <value>2019-12-01</value>
         </set-query-parameter>
