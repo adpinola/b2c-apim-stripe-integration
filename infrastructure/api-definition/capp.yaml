@@ -1,0 +1,12 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Container App API
+paths:
+  '/':
+    get:
+      summary: Home Page
+      operationId: home_page
+      responses:
+        '200':
+          description: OK

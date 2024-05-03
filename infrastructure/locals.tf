@@ -14,6 +14,11 @@ locals {
   product_area = "apinola"
   location     = "eastus"
 
+  apim = {
+    publisher_email = "alepinola@gmail.com"
+    publisher_name  = "Alejandro Pinola"
+  }
+
   tags = {
     Environment = local.environment
     ProductArea = local.product_area
