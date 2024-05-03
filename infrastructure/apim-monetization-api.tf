@@ -1,5 +1,5 @@
 resource "azurerm_api_management_backend" "monetization" {
-  name                = "ContainerApp_${azurerm_container_app.main.name}"
+  name                = "ContainerApp_${azurerm_container_app.monetization_server.name}"
   description         = azurerm_container_app.monetization_server.name
   api_management_name = azurerm_api_management.main.name
   resource_group_name = azurerm_resource_group.rg.name
@@ -20,7 +20,7 @@ resource "azurerm_api_management_api" "monetization" {
 
   import {
     content_format = "openapi"
-    content_value  = file("./infrastructure/api-definition/capp.yaml")
+    content_value  = file("./api-definition/capp.yaml")
   }
 }
 
@@ -29,5 +29,5 @@ resource "azurerm_api_management_api_policy" "monetization" {
   api_management_name = azurerm_api_management.main.name
   resource_group_name = azurerm_resource_group.rg.name
 
-  xml_content = file("./infrastructure/api-policy/capp.xml")
+  xml_content = file("./api-policy/capp.xml")
 }

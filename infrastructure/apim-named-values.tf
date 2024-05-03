@@ -35,5 +35,5 @@ resource "azurerm_api_management_named_value" "monetization_models_url" {
   display_name        = "SubscriptionId"
   api_management_name = azurerm_api_management.main.name
   resource_group_name = azurerm_resource_group.rg.name
-  value               = file("./payment/monetizationModels.json")
+  value               = file("../payment/monetizationModels.json")
 }

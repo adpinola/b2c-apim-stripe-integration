@@ -18,7 +18,7 @@ resource "azurerm_api_management_api" "billing_api" {
 
   import {
     content_format = "openapi"
-    content_value  = file("./infrastructure/api-definition/billing.yaml")
+    content_value  = file("./api-definition/billing.yaml")
   }
 }
 
@@ -46,16 +46,16 @@ resource "azurerm_api_management_api_operation_policy" "get_monetization_models_
   api_name            = azurerm_api_management_api.billing_api.name
   api_management_name = azurerm_api_management_api.billing_api.api_management_name
   resource_group_name = azurerm_api_management_api.billing_api.resource_group_name
-  operation_id        = azurerm_api_management_api_operation.get_monetization_models.name
+  operation_id        = azurerm_api_management_api_operation.get_monetization_models.id
 
-  xml_content = file("./infrastructure/api-policy/billing-get_monetization_models.xml")
+  xml_content = file("./api-policy/billing-get_monetization_models.xml")
 }
 
 resource "azurerm_api_management_api_operation_policy" "get_products_policy" {
   api_name            = azurerm_api_management_api.billing_api.name
   api_management_name = azurerm_api_management_api.billing_api.api_management_name
   resource_group_name = azurerm_api_management_api.billing_api.resource_group_name
-  operation_id        = azurerm_api_management_api_operation.get_products.name
+  operation_id        = azurerm_api_management_api_operation.get_products.id
 
-  xml_content = file("./infrastructure/api-policy/billing-get_products.xml")
+  xml_content = file("./api-policy/billing-get_products.xml")
 }
