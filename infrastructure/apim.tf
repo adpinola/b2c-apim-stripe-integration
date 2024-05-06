@@ -13,3 +13,13 @@ resource "azurerm_api_management" "main" {
 
   tags = local.tags
 }
+
+resource "azurerm_api_management_policy" "global" {
+  api_management_id = azurerm_api_management.main.id
+  xml_content       = file("./api-policy/global.xml")
+
+  depends_on = [
+    azurerm_api_management_named_value.apim_service_name,
+    azurerm_api_management_named_value.app_service_name
+  ]
+}
