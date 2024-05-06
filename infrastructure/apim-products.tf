@@ -59,3 +59,21 @@ resource "azurerm_api_management_product_policy" "api_product_policy" {
 
   xml_content = file("./api-policy/products/${each.value.product_id}.xml")
 }
+
+resource "azurerm_api_management_product_api" "billing_api_assignment" {
+  for_each = azurerm_api_management_product.api_product
+
+  product_id          = each.value.product_id
+  api_management_name = azurerm_api_management.main.name
+  resource_group_name = azurerm_resource_group.rg.name
+  api_name            = azurerm_api_management_api.billing_api.name
+}
+
+resource "azurerm_api_management_product_api" "monetization_api_assignment" {
+  for_each = azurerm_api_management_product.api_product
+
+  product_id          = each.value.product_id
+  api_management_name = azurerm_api_management.main.name
+  resource_group_name = azurerm_resource_group.rg.name
+  api_name            = azurerm_api_management_api.monetization.name
+}

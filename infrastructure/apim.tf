@@ -23,3 +23,10 @@ resource "azurerm_api_management_policy" "global" {
     azurerm_api_management_named_value.app_service_name
   ]
 }
+
+data "azapi_resource_action" "master_subscription" {
+  type                   = "Microsoft.ApiManagement/service/subscriptions@2023-05-01-preview"
+  resource_id            = "${azurerm_api_management.main.id}/subscriptions/master"
+  action                 = "listSecrets"
+  response_export_values = ["*"]
+}
