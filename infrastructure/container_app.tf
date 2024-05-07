@@ -1,5 +1,19 @@
 locals {
   server_port = 8000
+  stripe_webhook_ips = [
+    "3.18.12.63",
+    "3.130.192.231",
+    "13.235.14.237",
+    "13.235.122.149",
+    "18.211.135.69",
+    "35.154.171.200",
+    "52.15.183.38",
+    "54.88.130.119",
+    "54.88.130.237",
+    "54.187.174.169",
+    "54.187.205.235",
+    "54.187.216.72"
+  ]
 }
 
 resource "azurerm_container_app_environment" "capp_env" {
@@ -20,17 +34,17 @@ resource "azurerm_container_app" "monetization_server" {
 
   secret {
     name  = "apim-master-subscription-key"
-    value = jsondecode(data.azapi_resource_action.master_subscription.output)["primaryKey"]
+    value = "<unset>"
   }
 
   secret {
     name  = "stripe-api-key"
-    value = var.stripe_api_key
+    value = "<unset>"
   }
 
   secret {
     name  = "stripe-webhook-secret"
-    value = var.stripe_webhook_secret
+    value = "<unset>"
   }
 
   ingress {
@@ -46,6 +60,15 @@ resource "azurerm_container_app" "monetization_server" {
       action           = "Allow"
       ip_address_range = "${azurerm_api_management.main.public_ip_addresses.0}/32"
       name             = "APIM inbound"
+    }
+
+    dynamic "ip_security_restriction" {
+      for_each = toset(local.stripe_webhook_ips)
+      content {
+        action           = "Allow"
+        ip_address_range = ip_security_restriction.value
+        name             = "Stripe Webhook ${ip_security_restriction.key}"
+      }
     }
   }
 
@@ -117,10 +140,42 @@ resource "azurerm_container_app" "monetization_server" {
       }
     }
   }
+
+  lifecycle {
+    ignore_changes = [secret]
+  }
 }
 
 resource "azurerm_role_assignment" "storage_blob_access" {
   role_definition_name = "API Management Service Contributor"
   scope                = azurerm_api_management.main.id
   principal_id         = azurerm_container_app.monetization_server.identity[0].principal_id
+}
+
+resource "azapi_resource_action" "app_secret" {
+  type        = "Microsoft.App/containerApps@2024-03-01"
+  resource_id = azurerm_container_app.monetization_server.id
+  method      = "PATCH"
+  body = {
+    properties = {
+      configuration = {
+        secrets = [
+          {
+            name  = "stripe-webhook-secret"
+            value = module.stripe.webhook_secret
+          },
+          {
+            name  = "apim-master-subscription-key"
+            value = jsondecode(data.azapi_resource_action.master_subscription.output)["primaryKey"]
+          },
+          {
+            name  = "stripe-api-key"
+            value = var.stripe_api_key
+          }
+        ]
+      }
+    }
+  }
+
+  depends_on = [azurerm_container_app.monetization_server]
 }

@@ -37,3 +37,11 @@ resource "azurerm_api_management_named_value" "monetization_models" {
   resource_group_name = azurerm_resource_group.rg.name
   value               = file("../payment/monetizationModels.json")
 }
+
+resource "azurerm_api_management_named_value" "uai_client_id" {
+  name                = "uaiClientId"
+  display_name        = "UaiClientId"
+  api_management_name = azurerm_api_management.main.name
+  resource_group_name = azurerm_resource_group.rg.name
+  value               = azurerm_user_assigned_identity.apim.client_id
+}

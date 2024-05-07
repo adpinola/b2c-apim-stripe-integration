@@ -5,7 +5,7 @@
         <set-query-parameter name="api-version" exists-action="override">
             <value>2019-12-01</value>
         </set-query-parameter>
-        <authentication-managed-identity resource="https://management.azure.com/" />
+        <authentication-managed-identity resource="https://management.azure.com/" client-id="{{UaiClientId}}" />
     </inbound>
     <backend>
         <base />

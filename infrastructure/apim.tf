@@ -7,6 +7,11 @@ resource "azurerm_api_management" "main" {
 
   sku_name = "Developer_1"
 
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.apim.id]
+  }
+
   protocols {
     enable_http2 = true
   }
@@ -29,4 +34,16 @@ data "azapi_resource_action" "master_subscription" {
   resource_id            = "${azurerm_api_management.main.id}/subscriptions/master"
   action                 = "listSecrets"
   response_export_values = ["*"]
+}
+
+resource "azurerm_user_assigned_identity" "apim" {
+  name                = module.naming.user_assigned_identity.name
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = local.location
+}
+
+resource "azurerm_role_assignment" "apim_reader" {
+  role_definition_name = "Reader"
+  scope                = azurerm_resource_group.rg.id
+  principal_id         = azurerm_user_assigned_identity.apim.principal_id
 }

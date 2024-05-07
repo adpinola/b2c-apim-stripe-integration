@@ -8,6 +8,10 @@ terraform {
     azapi = {
       source = "Azure/azapi"
     }
+    stripe = {
+      version = ">=1.9.6"
+      source  = "lukasaron/stripe"
+    }
   }
 
   backend "azurerm" {}

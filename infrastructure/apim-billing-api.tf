@@ -39,6 +39,7 @@ resource "azurerm_api_management_api_operation_policy" "get_products_policy" {
   depends_on = [
     azurerm_api_management_named_value.apim_service_name,
     azurerm_api_management_named_value.subscription_id,
-    azurerm_api_management_named_value.resource_group_name
+    azurerm_api_management_named_value.resource_group_name,
+    azurerm_api_management_named_value.uai_client_id
   ]
 }
