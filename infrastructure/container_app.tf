@@ -58,7 +58,7 @@ resource "azurerm_container_app" "monetization_server" {
 
     ip_security_restriction {
       action           = "Allow"
-      ip_address_range = "${azurerm_api_management.main.public_ip_addresses.0}/32"
+      ip_address_range = "${module.apim.public_ip_addresses.0}/32"
       name             = "APIM inbound"
     }
 
@@ -91,7 +91,7 @@ resource "azurerm_container_app" "monetization_server" {
 
       env {
         name  = "APIM_SERVICE_NAME"
-        value = azurerm_api_management.main.name
+        value = module.apim.name
       }
 
       env {
@@ -106,12 +106,12 @@ resource "azurerm_container_app" "monetization_server" {
 
       env {
         name  = "APIM_MANAGEMENT_URL"
-        value = azurerm_api_management.main.management_api_url
+        value = module.apim.management_api_url
       }
 
       env {
         name  = "APIM_GATEWAY_URL"
-        value = azurerm_api_management.main.gateway_url
+        value = module.apim.gateway_url
       }
 
       env {
@@ -148,7 +148,7 @@ resource "azurerm_container_app" "monetization_server" {
 
 resource "azurerm_role_assignment" "storage_blob_access" {
   role_definition_name = "API Management Service Contributor"
-  scope                = azurerm_api_management.main.id
+  scope                = module.apim.instance_id
   principal_id         = azurerm_container_app.monetization_server.identity[0].principal_id
 }
 
@@ -166,7 +166,7 @@ resource "azapi_resource_action" "app_secret" {
           },
           {
             name  = "apim-master-subscription-key"
-            value = jsondecode(data.azapi_resource_action.master_subscription.output)["primaryKey"]
+            value = module.apim.master_subscription_key
           },
           {
             name  = "stripe-api-key"
