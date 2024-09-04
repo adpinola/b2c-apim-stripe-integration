@@ -32,8 +32,3 @@ variable "b2c" {
   })
   description = "The B2C Data to configure the SPA"
 }
-
-variable "backend_scopes" {
-  type        = list(string)
-  description = "A list of Backend Scopes to Authenticate the SPA"
-}

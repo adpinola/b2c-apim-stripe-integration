@@ -33,7 +33,6 @@ resource "azurerm_storage_blob" "index" {
     B2C_POLICY_ID      = var.b2c.policy_id
     FRONTEND_URI       = azurerm_storage_account.spa.primary_web_endpoint
     PAYMENT_SERVER_URL = "https://${azurerm_container_app.monetization_server.ingress[0].fqdn}/subscribe"
-    SCOPES             = jsonencode(var.backend_scopes)
     BACKEND_URL        = "${module.apim.gateway_url}/example"
   })
   content_type = "text/html"

@@ -14,19 +14,18 @@ The following sample repository explores how to integrate [Azure API Management]
    - A User Flow for Sign Up and Sign In with this configuration:
       - API Connection: `Before including application claims in token (preview)` step pointing the new Connector
       - Application Claims: Add `Primary Key` and `Secondary Key`
-   - Two App registrations:
+   - A new App registration:
      - Frontend: `for authenticating users with user flows`. Configure the Redirect URI once the SPA is deployed from terraform
-     - Backend: `for authenticating users with user flows`. Add a Scope
 
 ***The Backend Scope is required but not used in this demo, since there are no actual backend services***
 
-2. An Azure Container Registry in the same Subscription where the infrastructure will be deployed.
-3. An Service Principal with roles Contributor and User Access Administrator at Subscription level.
+1. An Azure Container Registry in the same Subscription where the infrastructure will be deployed.
+2. An Service Principal with roles Contributor and User Access Administrator at Subscription level.
    - Configure a Federated Credential to allow GitHub to Authenticate so pipelines can deploy the infrastructure and push the image to the ACR
-4. A Stripe account
+3. A Stripe account
    - You can use the test mode, make sure to save the API Key and the Public Key
 
-5. If you want to deploy from this repository as-is, fork the repository and create the following secrets and variables in your Repository. Then you'll be able to use the available Workflows to deploy.
+4. If you want to deploy from this repository as-is, fork the repository and create the following secrets and variables in your Repository. Then you'll be able to use the available Workflows to deploy.
 
 | Name                    | Kind     | Description                                                         |
 | ----------------------- | -------- | ------------------------------------------------------------------- |
@@ -36,7 +35,6 @@ The following sample repository explores how to integrate [Azure API Management]
 | ARM_SUBSCRIPTION_ID     | Secret   | Target Subscription to deploy resources                             |
 | ARM_TENANT_ID           | Secret   | Target Tenant to deploy resources                                   |
 | B2C_CONFIG              | Variable | [An Object in HCL Language to describe the B2C Tenant](#b2c-config) |
-| BACKEND_SCOPES          | Variable | A List in HCL Language of allowed backend Scopes                    |
 | IMAGE_NAME              | Variable | The name of the monetization serve image                            |
 | STRIPE_API_KEY          | Secret   | The API Key of your Stripe account                                  |
 | STRIPE_PUBLIC_KEY       | Variable | The Public key of your Stripe account                               |
@@ -58,16 +56,6 @@ The Variable should follow this structure:
 `tenant_name` is the Name of your Azure B2C Tenant.
 `policy_id` is the name of the User Flow created in [step 1](#pre-requisites).
 `issuer` follows the this format: https://<tenant_name>.b2clogin.com/<tenant_id>/v2.0/
-
-### Backend Scopes
-
-The variable should have this format:
-
-```hcl
-[ "stringA", "StringB" ]
-```
-
-Where each string is a backend scope, as defined in [step 1](#pre-requisites).
 
 ### Deploy
 
