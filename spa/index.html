@@ -155,7 +155,7 @@
             if (!accounts || accounts.length === 0) {
                 return null;
             } else {
-                return accounts[0];
+                return accounts.find(account => account.environment === "${B2C_TENANT_NAME}.b2clogin.com") || null;
             }
         }
     </script>
